@@ -20,6 +20,7 @@ import os
 from datetime import datetime
 import time
 
+
 class Logger(object):
     def __init__(self, log_dir):
         """Create a summary writer logging to log_dir."""

@@ -3,11 +3,13 @@ import torch.nn.functional as F
 import numpy as np
 import albumentations as A
 
+
 # boxes = (cls, x, y, w, h)
 def horizontal_flip(images, boxes):
     images = np.flip(images, [-1])
     boxes[:, 1] = 1 - boxes[:, 1]
     return images, boxes
+
 
 # images[np.unit8], boxes[numpy] = (cls, x, y, w, h)
 def augment(image, boxes):
@@ -24,7 +26,7 @@ def augment(image, boxes):
         A.HorizontalFlip(p=0.5),
         # A.HueSaturationValue(hue_shift_limit=10, sat_shift_limit=10, val_shift_limit=10, p=0.5),
         # A.ShiftScaleRotate(shift_limit=0.1, scale_limit=0.1, rotate_limit=5, border_mode=0, p=0.5)
-    ], bbox_params={'format':'coco', 'label_fields': ['category_id']})
+    ], bbox_params={'format': 'coco', 'label_fields': ['category_id']})
 
     augmented = aug(image=image, bboxes=boxes_coord, category_id=labels)
 

@@ -12,15 +12,15 @@ from utils.utils import build_targets, to_cpu, non_max_suppression
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 
-# convolutional,maxpool,upsample,route,shortcut,yolo
 
+# convolutional, maxpool, upsample, route, shortcut, yolo
 def create_modules(module_defs):
     """
     Constructs module list of layer blocks from module configuration in module_defs
     """
     hyperparams = module_defs.pop(0)
     output_filters = [int(hyperparams["channels"])]
-    module_list = nn.ModuleList()       # 一定要用ModuleList()才能被torch识别为module并进行管理，不能用list！
+    module_list = nn.ModuleList()  # 一定要用ModuleList()才能被torch识别为module并进行管理，不能用list！
     for module_i, module_def in enumerate(module_defs):
         modules = nn.Sequential()
 

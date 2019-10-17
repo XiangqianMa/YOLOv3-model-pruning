@@ -146,7 +146,7 @@ if __name__ == "__main__":
 
             log_str = "\n---- [Epoch %d/%d, Batch %d/%d] ----\n" % (epoch, opt.epochs, batch_i, len(dataloader))
 
-            metric_table = [["Metrics", *[f"YOLO Layer {i}" for i in range(len(model.yolo_layers))]]]
+            metric_table = [["Metrics", *["YOLO Layer {}".format(i) for i in range(len(model.yolo_layers))]]]
 
             # Log metrics at each YOLO layer
             formats = {m: "%.6f" for m in metrics}
@@ -157,12 +157,12 @@ if __name__ == "__main__":
                 metric_table += [[metric, *row_metrics]]
 
             log_str += AsciiTable(metric_table).table
-            log_str += f"\nTotal loss {loss.item()}"
+            log_str += "\nTotal loss {}".format(loss.item)
 
             # Determine approximate time left for epoch
             epoch_batches_left = len(dataloader) - (batch_i + 1)
             time_left = datetime.timedelta(seconds=epoch_batches_left * (time.time() - start_time) / (batch_i + 1))
-            log_str += f"\n---- ETA {time_left}"
+            log_str += "\n---- ETA {}".format(time_left)
 
             print(log_str)
 
@@ -172,7 +172,7 @@ if __name__ == "__main__":
                 for name, metric in yolo.metrics.items():
                     # 选择部分指标写入tensorboard
                     if name not in {"grid_size", "x", "y", "w", "h", "cls_acc"}:
-                        tensorboard_log += [(f"{name}_{i+1}", metric)]
+                        tensorboard_log += [("{}_{}".format(name, i+1), metric)]
             tensorboard_log += [("loss", loss.item())]
             tensorboard_log += [("lr", optimizer.param_groups[0]['lr'])]
             logger.list_of_scalars_summary('train', tensorboard_log, batches_done)
@@ -202,11 +202,11 @@ if __name__ == "__main__":
             for i, c in enumerate(ap_class):
                 ap_table += [[c, class_names[c], "%.5f" % AP[i]]]
             print(AsciiTable(ap_table).table)
-            print(f"---- mAP {AP.mean()}")
+            print("---- mAP {}".format(AP.mean()))
 
             # 往tensorboard中记录bn权重分布
             bn_weights = gather_bn_weights(model.module_list, prune_idx)
             logger.writer.add_histogram('bn_weights/hist', bn_weights.numpy(), epoch, bins='doane')
 
         if epoch % opt.checkpoint_interval == 0 or epoch == opt.epochs - 1:
-            torch.save(model.state_dict(), f"checkpoints/yolov3_ckpt_{epoch}_{timestamp}.pth")
+            torch.save(model.state_dict(), "checkpoints/yolov3_ckpt_{}_{}.pth".format(epoch, timestamp))

@@ -1,0 +1,10 @@
+checkpoints
+data/hand_dataset
+data/images
+data/labels
+data/samples
+logs
+output
+weights
+.idea
+*__pycache__

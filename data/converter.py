@@ -85,6 +85,7 @@ def generate_dir(set_name, root_path):   # 往images和labels文件夹下生成�
 
                 hs.write("0 %f %f %f %f" % (norm_center_x, norm_center_y, norm_width, norm_height)) # 0表示类别
 
+
 def create_txt(dirlist, filename):
     with open(filename, "w") as txtfile:   # 在data文件夹下生成txt文件
         imglist = []
@@ -96,6 +97,7 @@ def create_txt(dirlist, filename):
             if idx != 0:
                 txtfile.write("\n")
             txtfile.write(os.path.join(data_dir, img))    # 加上前缀data
+
 
 if __name__ == '__main__':
     start_time = datetime.datetime.now()

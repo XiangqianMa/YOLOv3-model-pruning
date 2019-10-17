@@ -3,6 +3,7 @@ def inspect_lr(optimizer):
     print('Current learning rate: %0.6f' % cur_lr)
     return cur_lr
 
+
 # 将学习率衰减为原来的gamma倍数
 def modify_lr(optimizer, gamma):
     cur_lr = inspect_lr(optimizer)
@@ -12,9 +13,11 @@ def modify_lr(optimizer, gamma):
         group['lr'] = new_lr
     return new_lr
 
+
 def turn_on_sr(opt):
     opt.sr = True
     print('Sr has been turned on!')
+
 
 def turn_off_sr(opt):
     opt.sr = False
